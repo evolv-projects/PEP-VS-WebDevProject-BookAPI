@@ -1,20 +1,26 @@
 # 📚 Book Finder – Frontend JavaScript Project
 
-Build a web application that allows users to search for books using the **Google Books API**, filter and sort results, and view detailed information about selected books.
+Build a web application that allows users to search for books using the
+**OpenLibrary Search API**, filter and sort results, and view detailed
+information about selected books.
 
 ---
 
 ## 🧠 Background
 
-In modern web development, the frontend plays a key role in delivering an interactive and engaging user experience. This project focuses on building a fully functional **client-side web application** using only HTML, CSS, and JavaScript.
+This project focuses on building a fully functional **client-side web
+application** using only HTML, CSS, and JavaScript.
 
-You will use the **Google Books API** to fetch book data and dynamically display search results, giving users the ability to explore books by title, author, or ISBN.
+You will use the **OpenLibrary Search API** to fetch book data and dynamically
+display search results, allowing users to explore books by **title**, **author**,
+or **ISBN**.
 
 This project emphasizes:
 
-- Using semantic HTML and responsive CSS
-- Fetching and processing external API data with JavaScript
-- Dynamically updating the DOM based on user interactions
+- Semantic HTML and responsive CSS  
+- Fetching and processing external API data  
+- Dynamic DOM manipulation  
+- Handling real-world API variability  
 
 ---
 
@@ -22,22 +28,26 @@ This project emphasizes:
 
 ### 1. 🔍 Search for Books
 
-Implement the `searchBooks()` function to:
+Implement the `searchBooks(query, type)` function to:
 
-- Accept a **query** and a **type** (`title`, `isbn`, or `author`).
-- Fetch results from the Google Books API.
-- Return a **maximum of 10** book results.
-- Each book object should include:
+- Accept a **query** and a **type** (`title`, `author`, or `isbn`)
+- Fetch results from the **OpenLibrary Search API**
+- Return **up to 10** book results
+- Gracefully handle empty results
 
-  | Property             | Description                   |
-  | -------------------- | ----------------------------- |
-  | `title`              | Title of the book             |
-  | `author_name`        | Author(s)                     |
-  | `isbn`               | ISBN identifier               |
-  | `cover_i`            | Cover image ID                |
-  | `ebook_access`       | Whether it has eBook access   |
-  | `first_publish_year` | Year of first publication     |
-  | `ratings_sortable`   | Numeric or descriptive rating |
+Each returned book object may include:
+
+| Property             | Description                   |
+|----------------------|-------------------------------|
+| `title`              | Title of the book             |
+| `author_name`        | Author(s)                     |
+| `isbn`               | ISBN identifier(s)            |
+| `cover_i`            | Cover image ID                |
+| `ebook_access`       | eBook availability            |
+| `first_publish_year` | Year of first publication     |
+| `ratings_sortable`   | Numeric or descriptive rating |
+
+> Note: Some fields may be missing depending on the book.
 
 ---
 
@@ -45,157 +55,122 @@ Implement the `searchBooks()` function to:
 
 In `displayBookList()`:
 
-- Render each book as a `<li>` inside an element with id `book-list`.
-- Each book should visually show:
+- Render each book as a `<li>` inside `#book-list`
+- Each book should display:
   - Title (`.title-element`)
   - Author (`.author-element`)
   - Cover image (`.cover-element`)
   - Rating (`.rating-element`)
-  - Ebook access info (`.ebook-element`)
-
-> Layout and order are up to the developer.
+  - eBook access info (`.ebook-element`)
 
 ---
 
 ### 3. 🧾 Handle Search Events
 
-- HTML must include a `<form id="search-form">` with:
-  - `<input id="search-input">`
-  - `<select id="search-type">` (options: `title`, `isbn`, `author`)
-  - `<button id="submit-button">`
-- JavaScript should include a `handleSearch()` function triggered on form submission.
-  - It should call `searchBooks()` and `displayBookList()`.
+Your HTML must include:
+
+- `<form id="search-form">`
+- `<input id="search-input">`
+- `<select id="search-type">` (`title`, `author`, `isbn`)
+- A submit button
+
+Submitting the form should trigger `handleSearch()`.
 
 ---
 
 ### 4. 📘 Display Detailed Book Info on Click
 
-When a user clicks a book:
+When a book is clicked:
 
-- Show detailed data in an element with `id="selected-book"`.
-- Hide the book list (`#book-list`).
-- Show the following fields:
-
+- Display detailed info in `#selected-book`
+- Show:
   - Title
-  - Author
+  - Author(s)
   - Cover image
   - First publish year
   - ISBN
-  - Ebook access
+  - eBook access
   - Rating
-
-Implemented via `displaySingleBook()`.
+- Allow returning to the list view
 
 ---
 
 ### 5. 📊 Sort by Rating
 
-- Include a `<button id="sort-rating">`.
-- On click, call `handleSort()` to sort books **by rating (desc)**.
-- Any non-numeric or missing rating should be treated as `"0"`.
+- Include a `<button id="sort-rating">`
+- Sort results **descending by rating**
+- Missing or non-numeric ratings should be treated as `0`
 
 ---
 
 ### 6. ✅ Filter by eBook Availability
 
-- Include a checkbox `<input type="checkbox" id="ebook-filter">`.
-- When checked, `handleFilter()` should filter results to show only `borrowable` eBooks.
-- When unchecked, all books should be shown.
+- Include `<input type="checkbox" id="ebook-filter">`
+- When checked, only show books with `ebook_access: "borrowable"`
 
 ---
 
-### 7. ♿ Use Semantic HTML Elements
+### 7. ♿ Semantic HTML
 
-Use **any 3** of the following semantic HTML tags in your HTML:
+Use **at least 3 semantic HTML elements**, such as:
 
-```html
-<article>
-  <aside>
-    <details>
-      <figcaption>
-        <figure>
-          <footer>
-            <header>
-              <main>
-                <nav><section></section></nav>
-              </main>
-            </header>
-          </footer>
-        </figure>
-      </figcaption>
-    </details>
-  </aside>
-</article>
-```
+- `<header>`
+- `<main>`
+- `<section>`
+- `<article>`
+- `<footer>`
 
 ---
 
-### 8. 📱 Use Responsive CSS
+### 8. 📱 Responsive CSS
 
-Your `styles.css` should include at least **one** of the following:
+Use **at least one** of the following:
 
 - CSS Grid
 - Flexbox
 - Media Queries
 
-This ensures your app adapts across screen sizes.
+---
+
+## 🌐 OpenLibrary API Reference
+
+### Base Endpoint
+
+```
+https://openlibrary.org/search.json
+```
+
+### Example Queries
+
+Search by title:
+```
+https://openlibrary.org/search.json?title=harry%20potter
+```
+
+Search by author (via full-text search):
+```
+https://openlibrary.org/search.json?q=edgar%20allan%20poe
+```
+
+Search by ISBN:
+```
+https://openlibrary.org/search.json?isbn=9781472539342
+```
+
+### Cover Images
+
+```
+https://covers.openlibrary.org/b/id/{cover_id}-L.jpg
+```
 
 ---
 
-## 🌐 Google Books API Reference
+## 📌 Notes on API Behavior
 
-### Basic Query Format
-
-```
-https://www.googleapis.com/books/v1/volumes?q=searchterm
-```
-
-> `%20` represents a space.
-
-### Example:
-
-```
-https://www.googleapis.com/books/v1/volumes?q=harry%20potter
-```
-
-### Searching by Field:
-
-```
-https://www.googleapis.com/books/v1/volumes?q=intitle:harry%20potter
-https://www.googleapis.com/books/v1/volumes?q=inauthor:Peter%20Loewer
-https://www.googleapis.com/books/v1/volumes?q=isbn:1781100500
-```
-
-### Limiting Results:
-
-```
-https://www.googleapis.com/books/v1/volumes?q=harry%20potter&maxResults=5
-```
-
----
-
-## 📌 Example Response Format (Simplified)
-
-```json
-{
-  "kind": "books#volumes",
-  "totalItems": 1014,
-  "items": [
-    {
-      "kind": "books#volume",
-      "volumeInfo": {
-        "title": "Harry Potter and the Chamber of Secrets",
-        "authors": ["J.K. Rowling"],
-        "publishedDate": "2015-12-08",
-        "averageRating": 4.5,
-        "imageLinks": {
-          "thumbnail": "https://..."
-        }
-      }
-    }
-  ]
-}
-```
+- Results may vary by query
+- Some searches may return empty results
+- Metadata is not guaranteed to be complete
+- Tests should validate **behavior**, not exact titles
 
 ---
 
@@ -203,11 +178,11 @@ https://www.googleapis.com/books/v1/volumes?q=harry%20potter&maxResults=5
 
 Focus on:
 
-- Fetching and rendering API data
-- Clean, readable DOM manipulation
-- Simple and responsive layout
-- Clear user experience
+- Robust API handling
+- Clean DOM updates
+- Defensive coding
+- User-friendly behavior
 
 ---
 
-**Good luck and happy coding! 💻📚**
+**Happy coding! 💻📚**
